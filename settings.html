@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | HandSpeak</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e4f0f2;
+            color: #333;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Header */
+        header {
+            background-color: #1e5fa3;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Main Content */
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #1e5fa3;
+        }
+
+        /* Accordion (Collapsible Sections) */
+        .accordion {
+            background-color: #e4f0f2;
+            color: #1e5fa3;
+            cursor: pointer;
+            padding: 12px;
+            width: 100%;
+            text-align: left;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            transition: 0.3s;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .active, .accordion:hover {
+            background-color: #5c9ec6;
+            color: white;
+        }
+
+        .panel {
+            padding: 10px;
+            display: none;
+            overflow: hidden;
+            background-color: white;
+            border-left: 3px solid #5c9ec6;
+            margin-bottom: 10px;
+        }
+
+        /* Form Inputs */
+        .panel label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #1e5fa3;
+        }
+
+        .panel input, .panel select, .panel textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #5c9ec6;
+            border-radius: 5px;
+        }
+
+        .save-btn {
+            background-color: #1e5fa3;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .save-btn:hover {
+            background-color: #5c9ec6;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1e5fa3;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        Settings | HandSpeak
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2>Manage Your Settings</h2>
+
+        <!-- Account Settings -->
+        <button class="accordion">Account Settings</button>
+        <div class="panel">
+            <label for="username">Change Name:</label>
+            <input type="text" id="username" placeholder="Enter new name">
+            
+            <label for="email">Change Email:</label>
+            <input type="email" id="email" placeholder="Enter new email">
+
+            <label for="password">Change Password:</label>
+            <input type="password" id="password" placeholder="Enter new password">
+            <input type="checkbox" id="togglePassword"> Show Password
+
+            <button class="save-btn">Save Changes</button>
+        </div>
+
+        <!-- App Preferences -->
+        <button class="accordion">App Preferences</button>
+        <div class="panel">
+            <label for="theme">Theme Mode:</label>
+            <select id="theme">
+                <option value="light">Light Mode</option>
+                <option value="dark">Dark Mode</option>
+            </select>
+
+            <label for="text-size">Text Size:</label>
+            <select id="text-size">
+                <option value="16px">Normal</option>
+                <option value="18px">Large</option>
+                <option value="20px">Extra Large</option>
+            </select>
+
+            <button class="save-btn">Save Preferences</button>
+        </div>
+
+        <!-- Privacy & Security -->
+        <button class="accordion">Privacy & Security</button>
+        <div class="panel">
+            <label for="twoFA">Enable Two-Factor Authentication:</label>
+            <select id="twoFA">
+                <option value="off">Off</option>
+                <option value="on">On</option>
+            </select>
+
+            <label for="data-download">Download My Data:</label>
+            <button class="save-btn">Download</button>
+
+            <label for="delete-account">Delete My Account:</label>
+            <button class="save-btn" style="background-color: red;">Delete</button>
+        </div>
+
+        <!-- Accessibility Settings -->
+        <button class="accordion">Accessibility Settings</button>
+        <div class="panel">
+            <label for="contrast">High Contrast Mode:</label>
+            <select id="contrast">
+                <option value="off">Off</option>
+                <option value="on">On</option>
+            </select>
+        </div>
+
+        <!-- Support & Help -->
+        <button class="accordion">Support & Help</button>
+        <div class="panel">
+            <label for="faq">FAQs:</label>
+            <button class="save-btn">View FAQs</button>
+
+            <label for="contact">Contact Support:</label>
+            <textarea id="contact" placeholder="Describe your issue..."></textarea>
+            <button class="save-btn">Submit</button>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2025 HandSpeak. All Rights Reserved.
+    </footer>
+
+    <script>
+        // Accordion for settings sections
+        var acc = document.getElementsByClassName("accordion");
+        for (var i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                panel.style.display = panel.style.display === "block" ? "none" : "block";
+            });
+        }
+
+        // Theme Mode Toggle
+        document.getElementById("theme").addEventListener("change", function() {
+            document.body.style.backgroundColor = this.value === "dark" ? "#333" : "#e4f0f2";
+            document.body.style.color = this.value === "dark" ? "#fff" : "#333";
+        });
+
+        // Text Size Adjuster
+        document.getElementById("text-size").addEventListener("change", function() {
+            document.body.style.fontSize = this.value;
+        });
+
+        // High Contrast Mode
+        document.getElementById("contrast").addEventListener("change", function() {
+            if (this.value === "on") {
+                document.body.style.backgroundColor = "#000";
+                document.body.style.color = "#FFD700";
+            } else {
+                document.body.style.backgroundColor = "#e4f0f2";
+                document.body.style.color = "#333";
+            }
+        });
+
+        // Show/Hide Password
+        document.getElementById("togglePassword").addEventListener("change", function() {
+            var passwordField = document.getElementById("password");
+            passwordField.type = this.checked ? "text" : "password";
+        });
+
+    </script>
+
+</body>
+</html>

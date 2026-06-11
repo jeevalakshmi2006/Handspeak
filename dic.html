@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Language Dictionary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #E4F0F2;
+            text-align: center;
+            color: #333333;
+        }
+
+        /* Header */
+        .header {
+            background: #1E5FA3;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header button {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            margin: 15px auto;
+            padding: 12px;
+            width: 80%;
+            font-size: 16px;
+            border: 1px solid #5C9EC6;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        /* Alphabet Buttons */
+        .alphabet-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 10px;
+        }
+
+        .alphabet-grid button {
+            background: #5C9EC6;
+            color: white;
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .alphabet-grid button:hover {
+            background: #4A89A7;
+        }
+
+        /* Dictionary Layout */
+        .dictionary-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px;
+        }
+
+        /* Word List */
+        .word-list {
+            width: 40%;
+            max-height: 300px;
+            overflow-y: auto;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .word-list div {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .word-list div:hover {
+            background: #D6E6EA;
+        }
+
+        /* Word Details */
+        .word-details {
+            width: 40%;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-preview {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        /* Favorites Button */
+        .favorites {
+            background: #5C9EC6;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 16px;
+            color: white;
+        }
+
+        .favorites:hover {
+            background: #4A89A7;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #1E5FA3;
+            padding: 10px;
+            color: white;
+            display: flex;
+            justify-content: center;
+        }
+
+        .bottom-nav button {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 16px;
+            margin: 0 20px;
+            cursor: pointer;
+        }
+
+        /* Favorite Words List */
+        .favorite-list {
+            background: #FFF;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            margin: 20px auto;
+            width: 50%;
+        }
+
+        .favorite-list div {
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <button onclick="goBack()">🔙</button>
+        <h2>Sign Language Dictionary</h2>
+    </div>
+
+    <!-- Search -->
+    <input type="text" class="search-bar" placeholder="Search for a word..." oninput="searchWord()">
+
+    <!-- Alphabet Grid -->
+    <div class="alphabet-grid" id="alphabetGrid"></div>
+
+    <!-- Dictionary Content -->
+    <div class="dictionary-container">
+        <!-- Word List -->
+        <div class="word-list" id="wordList"></div>
+
+        <!-- Word Details -->
+        <div class="word-details" id="wordDetails">
+            <h3>Select a word</h3>
+            <video class="video-preview" id="signVideo" controls></video>
+            <p id="wordMeaning">Word meaning will appear here.</p>
+            <p id="exampleSentence">Example sentence will appear here.</p>
+            <button class="favorites" onclick="saveToFavorites()">⭐ Save to Favorites</button>
+        </div>
+    </div>
+
+    <!-- Favorite Words List -->
+    <div class="favorite-list" id="favoriteList">
+        <h3>⭐ Favorite Words</h3>
+        <div id="favoritesContainer"></div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <button onclick="openFavorites()">⭐ Favorites</button>
+    </div>
+
+    <script>
+        const wordsDatabase = {
+            A: [{ word: "Apple", meaning: "A fruit", video: "apple.mp4", example: "I like eating an apple." }],
+            B: [{ word: "Ball", meaning: "A round object", video: "ball.mp4", example: "I play with a ball." }],
+            C: [{ word: "Cat", meaning: "A pet animal", video: "cat.mp4", example: "The cat is sleeping." }]
+        };
+
+        let favoriteWords = [];
+
+        function generateAlphabetButtons() {
+            let alphabetGrid = document.getElementById("alphabetGrid");
+            for (let letter = 65; letter <= 90; letter++) {
+                let btn = document.createElement("button");
+                btn.textContent = String.fromCharCode(letter);
+                btn.onclick = () => showWordsByLetter(btn.textContent);
+                alphabetGrid.appendChild(btn);
+            }
+        }
+
+        function showWordsByLetter(letter) {
+            let wordList = document.getElementById("wordList");
+            wordList.innerHTML = "";
+            if (wordsDatabase[letter]) {
+                wordsDatabase[letter].forEach(wordData => {
+                    let div = document.createElement("div");
+                    div.textContent = wordData.word;
+                    div.onclick = () => showWordDetails(wordData);
+                    wordList.appendChild(div);
+                });
+            }
+        }
+
+        function showWordDetails(wordData) {
+            document.getElementById("wordDetails").querySelector("h3").textContent = wordData.word;
+            document.getElementById("signVideo").src = wordData.video;
+            document.getElementById("wordMeaning").textContent = "Meaning: " + wordData.meaning;
+            document.getElementById("exampleSentence").textContent = "Example: " + wordData.example;
+        }
+
+        function saveToFavorites() {
+            let word = document.getElementById("wordDetails").querySelector("h3").textContent;
+            if (!favoriteWords.includes(word)) {
+                favoriteWords.push(word);
+                updateFavorites();
+            }
+        }
+
+        function updateFavorites() {
+            let container = document.getElementById("favoritesContainer");
+            container.innerHTML = favoriteWords.map(word => `<div>${word}</div>`).join("");
+            document.getElementById("favoriteList").style.display = "block";
+        }
+
+        function goBack() { window.location.href = "dashboard.html"; }
+
+        window.onload = generateAlphabetButtons;
+    </script>
+
+</body>
+</html>

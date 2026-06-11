@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #2424b3, #7677e6);
+            font-family: Arial, sans-serif;
+            position: relative; /* Added for positioning the logo */
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            color: #2424b3; /* Change color to #2424b3 */
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 0 auto; /* Centers the input elements */
+        }
+        .button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .link {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .logo {
+            position: absolute; /* Position the logo */
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            color: white; /* Text color */
+            font-weight: bold; /* Bold text */
+            font-size:40px
+        }
+        .logo img {
+            height: 30px; /* Adjust size of the logo */
+            margin-right: 5px; /* Space between logo and text */
+        }
+    </style>
+    <title>Create Account</title>
+</head>
+<body>
+    <div class="logo">
+        <img src="https://i.pinimg.com/474x/dd/1d/69/dd1d69a525baf751ff29f3ed994ccdaf.jpg" alt="Logo"> <!-- Replace with your logo source -->
+        HandSpeak
+    </div>
+    <div class="container">
+        <h1>Create Account</h1>
+        <div class="form-group">
+            <input type="text" placeholder="Username" id="username" required>
+        </div>
+        <div class="form-group">
+            <input type="email" placeholder="Email" id="email" required>
+        </div>
+        <div class="form-group">
+            <input type="password" placeholder="Password" id="password" required>
+        </div>
+        <button class="button" onclick="redirectToDashboard()">Sign up</button>
+        <div class="link">
+            Already have an account? <a href="login.html">Log in</a>
+        </div>
+    </div>
+
+    <script>
+        function redirectToDashboard() {
+            // Implement input validation if necessary
+            window.location.href = "dashboard.html";
+        }
+    </script>
+</body>
+</html>

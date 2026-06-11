@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Support</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #e4f0f2;
+            color: #1e5fa3;
+        }
+
+        /* Header */
+        header {
+            background: #1e5fa3;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        /* Main Section */
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-left: 5px solid #1e5fa3;
+            background: #e4f0f2;
+            border-radius: 5px;
+        }
+
+        h2 {
+            color: #1e5fa3;
+        }
+
+        /* FAQ Accordion */
+        .faq {
+            cursor: pointer;
+            padding: 10px;
+            background: #5c9ec6;
+            color: white;
+            border: none;
+            text-align: left;
+            width: 100%;
+            outline: none;
+            font-size: 16px;
+            transition: 0.3s;
+            border-radius: 5px;
+        }
+
+        .faq:hover {
+            background: #1e5fa3;
+        }
+
+        .faq-content {
+            display: none;
+            padding: 10px;
+            background: white;
+            border-left: 3px solid #5c9ec6;
+            margin-top: 5px;
+            border-radius: 5px;
+        }
+
+        /* Contact Form */
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #5c9ec6;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            background: #1e5fa3;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #5c9ec6;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            background: #1e5fa3;
+            color: white;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                width: 90%;
+                padding: 15px;
+            }
+
+            .faq {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        Help & Support
+    </header>
+
+    <div class="container">
+        <!-- Support Section -->
+        <div class="section">
+            <h2>Need Assistance?</h2>
+            <p>We are here to help! Find answers to common issues or contact our support team.</p>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="section">
+            <h2>Frequently Asked Questions</h2>
+            <button class="faq">How do I upload a video/image?</button>
+            <div class="faq-content">
+                <p>You can upload a video or image by clicking on the upload button and selecting a file from your device.</p>
+            </div>
+
+            <button class="faq">How can I reset my password?</button>
+            <div class="faq-content">
+                <p>Go to the login page, click on ‘Forgot Password’ and follow the instructions to reset your password.</p>
+            </div>
+
+            <button class="faq">How do I contact customer support?</button>
+            <div class="faq-content">
+                <p>You can contact us through the form below or email us at support@handspeak.com.</p>
+            </div>
+        </div>
+
+        <!-- Contact Support -->
+        <div class="section">
+            <h2>Contact Support</h2>
+            <p>Have a specific question? Send us a message, and our team will get back to you soon.</p>
+            <input type="text" id="name" placeholder="Your Name">
+            <input type="email" id="email" placeholder="Your Email">
+            <textarea id="message" rows="4" placeholder="Describe your issue..."></textarea>
+            <button onclick="submitForm()">Submit</button>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 HandSpeak. All Rights Reserved.
+    </footer>
+
+    <script>
+        // FAQ Accordion
+        const faqs = document.querySelectorAll(".faq");
+        faqs.forEach((faq) => {
+            faq.addEventListener("click", function () {
+                this.nextElementSibling.classList.toggle("faq-content");
+                this.nextElementSibling.style.display = 
+                    this.nextElementSibling.style.display === "block" ? "none" : "block";
+            });
+        });
+
+        // Contact Form Submission
+        function submitForm() {
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let message = document.getElementById("message").value;
+
+            if (name && email && message) {
+                alert("Thank you! Your message has been sent.");
+            } else {
+                alert("Please fill in all fields.");
+            }
+        }
+    </script>
+
+</body>
+</html>

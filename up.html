@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Video/Image</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #E4F0F2;
+            color: #333333;
+            text-align: center;
+        }
+
+        /* Header */
+        header {
+            background: #1E5FA3;
+            color: white;
+            padding: 15px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        /* Upload Section */
+        .upload-container {
+            margin: 20px auto;
+            width: 80%;
+            max-width: 600px;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .upload-box {
+            border: 2px dashed #5C9EC6;
+            padding: 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            background: #E4F0F2;
+        }
+
+        .upload-box:hover {
+            background: #D6E6EA;
+        }
+
+        /* Hide default file input */
+        #fileInput {
+            display: none;
+        }
+
+        /* Buttons */
+        .btn {
+            background: #5C9EC6;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background: #4A89A7;
+        }
+
+        /* Preview */
+        .preview-container {
+            margin-top: 15px;
+        }
+
+        .preview {
+            max-width: 100%;
+            max-height: 300px;
+            margin-top: 10px;
+            border-radius: 10px;
+        }
+
+        /* Processing Animation */
+        .processing-animation {
+            display: none;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #5C9EC6;
+        }
+
+        /* Footer */
+        footer {
+            background: #1E5FA3;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>Upload Video/Image</header>
+
+    <!-- Upload Section -->
+    <div class="upload-container">
+        <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+            <p>📤 Drag & Drop or Click to Upload</p>
+            <input type="file" id="fileInput" accept="image/*,video/*">
+        </div>
+
+        <div class="preview-container" id="previewContainer"></div>
+
+        <div class="processing-animation" id="processingAnimation">🔄 Processing...</div>
+
+        <div class="output-box">
+            <h3>Recognized Sign:</h3>
+            <p id="translatedText">Waiting for AI analysis...</p>
+            <button class="btn" onclick="downloadResult()">⬇️ Download Result</button>
+            <button class="btn" onclick="shareResult()">📲 Share</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>HandSpeak - Breaking Barriers, Building Bridges</footer>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const previewContainer = document.getElementById('previewContainer');
+        const processingAnimation = document.getElementById('processingAnimation');
+        const translatedText = document.getElementById('translatedText');
+
+        fileInput.addEventListener('change', function () {
+            const file = fileInput.files[0];
+            if (file) {
+                showPreview(file);
+                processFile(file);
+            }
+        });
+
+        function showPreview(file) {
+            previewContainer.innerHTML = "";
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                if (file.type.startsWith("image")) {
+                    let img = document.createElement("img");
+                    img.src = e.target.result;
+                    img.classList.add("preview");
+                    previewContainer.appendChild(img);
+                } else if (file.type.startsWith("video")) {
+                    let video = document.createElement("video");
+                    video.src = e.target.result;
+                    video.controls = true;
+                    video.classList.add("preview");
+                    previewContainer.appendChild(video);
+                }
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        function processFile(file) {
+            processingAnimation.style.display = "block";
+            translatedText.innerText = "Analyzing...";
+            
+            setTimeout(() => {
+                processingAnimation.style.display = "none";
+                translatedText.innerText = "Detected Sign: Hello (Example)";
+            }, 3000);
+        }
+
+        function downloadResult() {
+            const blob = new Blob([translatedText.innerText], { type: "text/plain" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "translation.txt";
+            link.click();
+        }
+
+        function shareResult() {
+            if (navigator.share) {
+                navigator.share({
+                    title: "Sign Language Translation",
+                    text: translatedText.innerText,
+                    url: window.location.href
+                }).then(() => console.log("Shared successfully"))
+                  .catch((error) => console.log("Error sharing:", error));
+            } else {
+                alert("Sharing not supported on this device.");
+            }
+        }
+    </script>
+
+</body>
+</html>

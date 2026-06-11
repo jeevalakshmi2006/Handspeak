@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - HandSpeak</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e4f0f2;
+        }
+
+        /* Header */
+        header {
+            background: #1e5fa3;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .notification-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-icon i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .badge {
+            background: red;
+            color: white;
+            font-size: 12px;
+            border-radius: 50%;
+            padding: 4px 8px;
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            display: none;
+        }
+
+        /* Notification Box */
+        .notification-container {
+            max-width: 400px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            display: none;
+        }
+
+        .notification {
+            display: flex;
+            align-items: center;
+            background: #5c9ec6;
+            padding: 12px;
+            margin: 10px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .notification:hover {
+            background: #468ca1;
+        }
+
+        .notification i {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        .dismiss {
+            margin-left: auto;
+            cursor: pointer;
+            color: red;
+            font-size: 18px;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e5fa3;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .notification-container {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>HandSpeak</h2>
+        <div class="notification-icon" onclick="toggleNotifications()">
+            <i class="fas fa-bell"></i>
+            <span class="badge" id="notificationCount">3</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="notification-container" id="notificationList">
+            <!-- Notifications will be dynamically added here -->
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 HandSpeak. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const notificationList = document.getElementById("notificationList");
+            const notificationCount = document.getElementById("notificationCount");
+
+            // Sample Notifications
+            let notifications = [
+                { id: 1, icon: "fas fa-video", text: "Incoming Video Call from Alex", type: "call" },
+                { id: 2, icon: "fas fa-hand-paper", text: "New Sign Language Tip Available", type: "tip" },
+                { id: 3, icon: "fas fa-exclamation-circle", text: "Security Alert: New Login", type: "alert" }
+            ];
+
+            // Function to Render Notifications
+            function renderNotifications() {
+                notificationList.innerHTML = "";
+                notifications.forEach(notif => {
+                    let notifElement = document.createElement("div");
+                    notifElement.classList.add("notification");
+                    notifElement.innerHTML = `
+                        <i class="${notif.icon}"></i>
+                        <p>${notif.text}</p>
+                        <span class="dismiss" onclick="dismissNotification(${notif.id})">&times;</span>
+                    `;
+                    notifElement.addEventListener("click", () => handleNotificationClick(notif));
+                    notificationList.appendChild(notifElement);
+                });
+
+                // Update Badge Count
+                notificationCount.innerText = notifications.length;
+                notificationCount.style.display = notifications.length > 0 ? "inline-block" : "none";
+            }
+
+            // Handle Click on Notification
+            function handleNotificationClick(notif) {
+                alert(`Opening: ${notif.text}`);
+            }
+
+            // Dismiss Notification
+            window.dismissNotification = function(id) {
+                notifications = notifications.filter(n => n.id !== id);
+                renderNotifications();
+            };
+
+            // Toggle Notifications on Bell Click
+            window.toggleNotifications = function() {
+                notificationList.style.display = notificationList.style.display === "block" ? "none" : "block";
+            };
+
+            // Initial Render
+            renderNotifications();
+        });
+    </script>
+</body>
+</html>

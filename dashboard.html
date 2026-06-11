@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HandSpeak</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; transition: all 0.3s ease; }
+        body { display: flex; flex-direction: column; height: 100vh; background: #e3e3e3; }
+        
+        /* Header */
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px; background:#1E5FA3; color: white; }
+        .menu-btn { font-size: 24px; cursor: pointer; }
+        .header-left { display: flex; align-items: center; gap: 10px; }
+        .logo { width: 40px; height: 40px; }
+        .company-name { font-size: 20px; font-weight: bold; }
+        .search-bar { display: flex; align-items: center; background: white; padding: 5px; border-radius: 10px; }
+        .search-bar input { border: none; outline: none; padding: 5px; width: 400px; text-transform: none; }
+        .search-bar i { margin-left: 5px; color: #2424b4; cursor: pointer; }
+        .header-icons { display: flex; align-items: center; gap: 35px; }
+        .header-icons button { background: none; border: none; cursor: pointer; color: #FFFFFF; font-size: 18px; display: flex; flex-direction: column; align-items: center; }
+        .profile { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+        .profile img { width: 30px; height: 30px; border-radius: 50%; border: 2px solid white; }
+        .profile span { font-size: 12px; margin-top: 5px; }
+        
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: -250px;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: #5c9ec6;
+            transition: 0.3s ease-in-out;
+            color: white;
+            z-index: 2;
+            padding: 10px;
+        }
+        .sidebar.active { left: 0; }
+        
+        .sidebar-close {
+            cursor: pointer;
+            font-size: 24px;
+            display: block;
+            text-align: right;
+        }
+
+        /* Sidebar Container */
+        .sidebar-container {
+            background: #4a8dab;
+            padding: 20px;
+            height: calc(100vh - 40px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            border-radius: 30px;
+        }
+
+        /* Sidebar Box */
+        .sidebar-box {
+            padding: 12px;
+            margin-bottom: 30px;
+            text-align: left;
+            background: #5c9ec6;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: box-shadow 0.3s ease, transform 0.2s ease;
+        }
+
+        /* Hover Effect */
+        .sidebar-box:hover {
+            box-shadow: 0px 0px 10px 4px rgba(255, 255, 255, 0.7);
+            transform: scale(1.05);
+        }
+        /* Heading style */
+        .sidebar-heading {
+            color: white; /* White color for the heading */
+            font-size: 18px; /* Font size for the heading */
+            margin-bottom: 15px; /* Space below the heading */
+        }
+
+        /* Shrinking Effect */
+        .shrink { width: calc(100% - 250px); margin-left: 250px; }
+        
+        /* Main Section */
+        .main { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 20px; background:#e5f1f3; }
+        .box { background:#118ec8; padding: 30px; text-align: center; border-radius: 10px;box-shadow: 0 4px 6px rgba(173, 216, 230, 0.5); color: white; font-weight: bold; cursor: pointer; transition: transform 0.2s ease; }
+        .box:hover { transform: scale(1.05); box-shadow: 0px 0px 15px 4px rgba(0, 191, 255, 0.8); }
+           /* .box:hover {
+            box-shadow: 0px 0px 10px 4px rgba(255, 255, 255, 0.7);
+            transform: scale(1.05);*/
+
+        
+        /* Footer */
+        .footer { text-align: center; padding: 15px; background: #1E5FA3; color: white; }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <span class="sidebar-close" onclick="toggleSidebar()">&times;</span>
+        <div class="sidebar-content">
+        
+            <div class="sidebar-box" onclick="window.location.href='dashboard.html'">Dashboard</div>
+       
+            <div class="sidebar-box" onclick="window.location.href='hist.html'">History</div>
+                       <div class="sidebar-box" onclick="window.location.href='settings.html'">Settings</div>
+            <div class="sidebar-box" onclick="window.location.href='help.html'">Help & Support</div>
+            <div class="sidebar-box" onclick="window.location.href='index.html'">Logout</div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-left">
+            <i class="fas fa-bars menu-btn" onclick="toggleSidebar()"></i>
+            <img src="https://i.pinimg.com/474x/dd/1d/69/dd1d69a525baf751ff29f3ed994ccdaf.jpg" alt="Logo" class="logo">
+            <span class="company-name">HandSpeak</span>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search here...">
+            <i class="fas fa-search" onclick="searchContent()"></i>
+        </div>
+        <div class="header-icons">
+            <button onclick="window.location.href='contacts.html'"><img src="https://cdn-icons-png.flaticon.com/128/3114/3114553.png" alt="Logo" class="logo"></button>
+            <button onclick="window.location.href='notification.html'"><img src="https://cdn-icons-png.flaticon.com/128/1827/1827422.png" alt="Logo" class="logo"></button>
+            <div class="profile" onclick="window.location.href='profile.html'">
+                <img src="https://cdn-icons-png.flaticon.com/128/18706/18706369.png" alt="Profile">
+                            </div>
+        </div>
+    </header>
+    
+    <!-- Main Section -->
+    <main class="main" id="main">
+        <div class="box" onclick="window.location.href='pc.html'"><img src="https://cdn-icons-png.flaticon.com/128/13085/13085458.png" alt="Personal" height="100px" width="100px"><br>Personal Communication</div>
+        <div class="box" onclick="window.location.href='up.html'"><img src="https://cdn-icons-png.flaticon.com/128/7434/7434832.png" alt="Upload"><br>Upload Videos/Images</div>
+        <div class="box" onclick="window.location.href='live.html'"><img src="https://cdn-icons-png.flaticon.com/128/13085/13085409.png" alt="Live"><br>Live Stream</div>
+        <div class="box" onclick="window.location.href='dic.html'"><img src="https://cdn-icons-png.flaticon.com/128/5402/5402323.png" alt="Dictionary"><br>Dictionary</div>
+        <div class="box" onclick="window.location.href='cus.html'"><img src="https://cdn-icons-png.flaticon.com/128/14644/14644564.png" alt="Customize"><br>Customization</div>
+        <div class="box" onclick="window.location.href='hist.html'"><img src="https://cdn-icons-png.flaticon.com/128/16309/16309890.png" alt="History"><br>History</div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer" id="footer">Footer Content</footer>
+    
+    <script>
+        function toggleSidebar() {
+            let sidebar = document.getElementById('sidebar');
+            let main = document.getElementById('main');
+            let header = document.getElementById('header');
+            let footer = document.getElementById('footer');
+            sidebar.classList.toggle('active');
+            main.classList.toggle('shrink');
+            header.classList.toggle('shrink');
+            footer.classList.toggle('shrink');
+        }
+        
+        function searchContent() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let elements = document.querySelectorAll('body *');
+            let found = false;
+            
+            elements.forEach(el => {
+                if (el.innerText.toLowerCase().includes(input)) {
+                    el.style.background = '#FFD700';
+                    found = true;
+                } else {
+                    el.style.background = '';
+                }
+            });
+            
+            if (!found) {
+                alert("No result found");
+            }
+        }
+    </script>
+</body>
+</html>

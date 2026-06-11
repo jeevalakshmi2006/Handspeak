@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customization</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #E4F0F2;
+            color: #333;
+            text-align: center;
+        }
+        .header {
+            background: #1E5FA3;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header button {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .container {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .option {
+            margin: 15px 0;
+            text-align: left;
+            color: inherit;
+        }
+        .option label {
+            font-size: 16px;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .option select, .option input {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: inherit;
+            color: inherit;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #1E5FA3;
+            padding: 10px;
+            color: white;
+            display: flex;
+            justify-content: space-around;
+        }
+        .bottom-nav button {
+            background: #5C9EC6;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            color: white;
+        }
+        .bottom-nav button:hover {
+            background: #417A9B;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button onclick="goBack()">🔙</button>
+        <h2>Customization</h2>
+        <button onclick="resetSettings()">🔄 Reset</button>
+    </div>
+
+    <div class="container" id="container">
+        <div class="option">
+            <label>Theme Selection 🎨</label>
+            <select id="themeSelect" onchange="changeTheme()">
+                <option value="light">Light 🌞</option>
+                <option value="dark">Dark 🌙</option>
+            </select>
+        </div>
+
+        <div class="option">
+            <label>Font Size 📝</label>
+            <input type="range" id="fontSize" min="12" max="24" value="16" oninput="changeFontSize()">
+        </div>
+
+        <div class="option">
+            <label>Voice Settings 🎤</label>
+            <select id="voiceSetting">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="ai">AI-generated</option>
+            </select>
+        </div>
+
+        <div class="option">
+            <label>Notification Preferences 🔔</label>
+            <input type="checkbox" id="notifications" checked> Enable Notifications
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <button onclick="saveSettings()">💾 Save Changes</button>
+        <button onclick="resetSettings()">⏮️ Reset Default</button>
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href = "dashboard.html";
+        }
+
+        function changeTheme() {
+            let theme = document.getElementById("themeSelect").value;
+            let container = document.getElementById("container");
+            if (theme === "light") {
+                document.body.style.background = "#FFFFFF";
+                document.body.style.color = "#333";
+                container.style.background = "#FFFFFF";
+                container.style.color = "#333";
+            } else {
+                document.body.style.background = "#222";
+                document.body.style.color = "#fff";
+                container.style.background = "#333";
+                container.style.color = "#fff";
+            }
+        }
+
+        function changeFontSize() {
+            let fontSize = document.getElementById("fontSize").value + "px";
+            document.body.style.fontSize = fontSize;
+        }
+
+        function saveSettings() {
+            let settings = {
+                theme: document.getElementById("themeSelect").value,
+                fontSize: document.getElementById("fontSize").value,
+                voiceSetting: document.getElementById("voiceSetting").value,
+                notifications: document.getElementById("notifications").checked
+            };
+            localStorage.setItem("userSettings", JSON.stringify(settings));
+            alert("Settings saved successfully!");
+        }
+
+        function resetSettings() {
+            localStorage.removeItem("userSettings");
+            document.getElementById("themeSelect").value = "light";
+            document.getElementById("fontSize").value = 16;
+            document.getElementById("voiceSetting").value = "male";
+            document.getElementById("notifications").checked = true;
+            changeTheme();
+            alert("Settings reset to default!");
+        }
+
+        function loadSettings() {
+            let savedSettings = localStorage.getItem("userSettings");
+            if (savedSettings) {
+                let settings = JSON.parse(savedSettings);
+                document.getElementById("themeSelect").value = settings.theme;
+                document.getElementById("fontSize").value = settings.fontSize;
+                document.getElementById("voiceSetting").value = settings.voiceSetting;
+                document.getElementById("notifications").checked = settings.notifications;
+                changeTheme();
+                changeFontSize();
+            }
+        }
+
+        window.onload = loadSettings;
+    </script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History | HandSpeak</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e4f0f2;
+            color: #333;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Header */
+        header {
+            background-color: #1e5fa3;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Main Container */
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #1e5fa3;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #5c9ec6;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        /* History Sections */
+        .history-section {
+            margin-bottom: 20px;
+        }
+
+        .history-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .history-item {
+            background: #e4f0f2;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #5c9ec6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px;
+        }
+
+        .history-item span {
+            font-weight: bold;
+            color: #1e5fa3;
+        }
+
+        .history-item button {
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .history-item button:hover {
+            background: darkred;
+        }
+
+        /* No Data Placeholder */
+        .no-data {
+            text-align: center;
+            padding: 20px;
+            font-size: 18px;
+            color: #5c9ec6;
+        }
+
+        .start-now-btn {
+            background-color: #1e5fa3;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .start-now-btn:hover {
+            background-color: #5c9ec6;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1e5fa3;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        History | HandSpeak
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2>Your History</h2>
+        
+        <!-- Search Bar -->
+        <input type="text" id="search" class="search-bar" placeholder="Search history...">
+
+        <!-- Recent Translations -->
+        <div class="history-section">
+            <h3>Recent Translations</h3>
+            <ul class="history-list" id="translation-history">
+                <!-- Dynamic Content Here -->
+            </ul>
+        </div>
+
+        <!-- Uploaded Media -->
+        <div class="history-section">
+            <h3>Uploaded Media</h3>
+            <ul class="history-list" id="media-history">
+                <!-- Dynamic Content Here -->
+            </ul>
+        </div>
+
+        <!-- Live Stream History -->
+        <div class="history-section">
+            <h3>Live Stream History</h3>
+            <ul class="history-list" id="stream-history">
+                <!-- Dynamic Content Here -->
+            </ul>
+        </div>
+
+        <!-- No Data Placeholder -->
+        <div id="no-data" class="no-data">
+            No history yet! Start translating to see your past interactions here.
+            <br>
+            <button class="start-now-btn">Start Now</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2025 HandSpeak. All Rights Reserved.
+    </footer>
+
+    <script>
+        // Sample Data (Replace with real data from backend)
+        const translationHistory = [
+            { text: "Hello", date: "March 5, 2025" },
+            { text: "Thank You", date: "March 4, 2025" },
+        ];
+
+        const mediaHistory = [
+            { filename: "sign_language1.mp4", date: "March 3, 2025" },
+            { filename: "gesture_image.png", date: "March 2, 2025" },
+        ];
+
+        const streamHistory = [
+            { session: "Live Stream - March 1, 2025" }
+        ];
+
+        // Function to Load History
+        function loadHistory() {
+            const translationList = document.getElementById("translation-history");
+            const mediaList = document.getElementById("media-history");
+            const streamList = document.getElementById("stream-history");
+            const noDataDiv = document.getElementById("no-data");
+
+            // Populate Translation History
+            if (translationHistory.length > 0) {
+                translationHistory.forEach(item => {
+                    let li = document.createElement("li");
+                    li.className = "history-item";
+                    li.innerHTML = `<span>${item.text}</span> <span>${item.date}</span> <button onclick="deleteItem(this, 'translation')">Delete</button>`;
+                    translationList.appendChild(li);
+                });
+            }
+
+            // Populate Media History
+            if (mediaHistory.length > 0) {
+                mediaHistory.forEach(item => {
+                    let li = document.createElement("li");
+                    li.className = "history-item";
+                    li.innerHTML = `<span>${item.filename}</span> <span>${item.date}</span> <button onclick="deleteItem(this, 'media')">Delete</button>`;
+                    mediaList.appendChild(li);
+                });
+            }
+
+            // Populate Live Stream History
+            if (streamHistory.length > 0) {
+                streamHistory.forEach(item => {
+                    let li = document.createElement("li");
+                    li.className = "history-item";
+                    li.innerHTML = `<span>${item.session}</span> <button onclick="deleteItem(this, 'stream')">Delete</button>`;
+                    streamList.appendChild(li);
+                });
+            }
+
+            // Hide "No Data" message if history exists
+            if (translationHistory.length || mediaHistory.length || streamHistory.length) {
+                noDataDiv.style.display = "none";
+            }
+        }
+
+        // Delete Item from History
+        function deleteItem(element, type) {
+            element.parentElement.remove();
+        }
+
+        // Load History on Page Load
+        window.onload = loadHistory;
+    </script>
+
+</body>
+</html>
